@@ -163,9 +163,25 @@ Server receives:
 - **API Rate Limiting** - Add human verification layer
 - **Voting/Polling** - Ensure one vote per person
 
-### 🔍 SEO Keywords
+### 🔍 SEO Keywords & Search Terms
 
-Free CAPTCHA, reCAPTCHA alternative, hCaptcha alternative, privacy-focused CAPTCHA, client-side CAPTCHA, JavaScript CAPTCHA, behavioral biometrics CAPTCHA, bot detection, anti-spam, no tracking CAPTCHA, open source CAPTCHA, self-hosted CAPTCHA
+**CAPTCHA Alternatives:**
+Free CAPTCHA, reCAPTCHA alternative, hCaptcha alternative, Cloudflare Turnstile alternative, FriendlyCaptcha alternative, captcha without tracking, privacy-focused CAPTCHA, open source captcha, self-hosted CAPTCHA, client-side CAPTCHA, JavaScript CAPTCHA, HTML5 CAPTCHA, lightweight CAPTCHA
+
+**Bot Detection & Security:**
+bot detection, anti-bot solution, bot prevention, bot blocker, behavioral biometrics, mouse tracking security, human verification, anti-spam protection, brute force protection, credential stuffing prevention, automated attack prevention, web scraping protection, click fraud prevention
+
+**Privacy & Compliance:**
+GDPR compliant CAPTCHA, privacy-first CAPTCHA, no tracking CAPTCHA, cookie-free CAPTCHA, anonymous CAPTCHA, EU privacy CAPTCHA, CCPA compliant verification
+
+**Technical Features:**
+canvas fingerprinting, WebGL fingerprinting, browser fingerprinting, behavioral analysis CAPTCHA, AI-resistant CAPTCHA, OCR-proof CAPTCHA, headless browser detection, Selenium detection, Puppeteer detection
+
+**Use Cases:**
+login form protection, registration form security, contact form spam prevention, comment spam blocker, voting system security, poll bot prevention, rate limiting, API protection
+
+**Comparison Searches:**
+captcha comparison, best free captcha, captcha without google, captcha without third party, offline captcha, standalone captcha solution
 
 ### 📄 License
 
@@ -308,6 +324,47 @@ Sunucu alır:
 }
 ```
 
+### 🎯 Kullanım Alanları
+
+- **Giriş Formları** - Kimlik bilgisi doldurma saldırılarını önleme
+- **Kayıt Sayfaları** - Sahte hesap oluşturmayı engelleme
+- **İletişim Formları** - Spam gönderimlerini durdurma
+- **Yorum Bölümleri** - Bot spam önleme
+- **API Hız Sınırlama** - İnsan doğrulama katmanı ekleme
+- **Oylama/Anket** - Kişi başı bir oy sağlama
+
+### 🆚 Neden BlurCaptcha?
+
+| Özellik | BlurCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
+|---------|-------------|------------------|----------|---------------------|
+| **Gizlilik** | ✅ Takip yok | ❌ Kullanıcıları takip eder | ❌ Kullanıcıları takip eder | ⚠️ Sınırlı takip |
+| **Sunucu Gereksinimi** | ❌ Hayır | ✅ Evet | ✅ Evet | ✅ Evet |
+| **Dış Bağımlılık** | ❌ Yok | ✅ Google API | ✅ hCaptcha API | ✅ Cloudflare API |
+| **Ücretsiz** | ✅ MIT Lisansı | ⚠️ Sınırlı ücretsiz | ⚠️ Sınırlı ücretsiz | ⚠️ Sınırlı ücretsiz |
+| **Davranışsal Analiz** | ✅ Gelişmiş | ❌ Temel | ❌ Temel | ⚠️ Bilinmiyor |
+| **Açık Kaynak** | ✅ Evet | ❌ Hayır | ❌ Hayır | ❌ Hayır |
+| **Özelleştirilebilir** | ✅ Tamamen | ❌ Sınırlı | ❌ Sınırlı | ❌ Sınırlı |
+
+### 🔍 SEO Anahtar Kelimeleri ve Arama Terimleri
+
+**CAPTCHA Alternatifleri:**
+Ücretsiz CAPTCHA, reCAPTCHA alternatifi, hCaptcha alternatifi, Cloudflare Turnstile alternatifi, FriendlyCaptcha alternatifi, takipsiz captcha, gizlilik odaklı CAPTCHA, açık kaynak captcha, kendi sunucunda captcha, istemci taraflı CAPTCHA, JavaScript CAPTCHA, HTML5 CAPTCHA, hafif CAPTCHA
+
+**Bot Algılama ve Güvenlik:**
+bot algılama, bot engelleme, bot önleme, bot engelleyici, davranışsal biyometri, mouse takip güvenliği, insan doğrulama, spam koruma, kaba kuvvet koruması, kimlik bilgisi doldurma önleme, otomatik saldırı önleme, web kazıma koruması, tıklama dolandırıcılığı önleme, bot tespiti, otomasyon engelleme
+
+**Gizlilik ve Uyumluluk:**
+KVKK uyumlu CAPTCHA, GDPR uyumlu CAPTCHA, gizlilik öncelikli CAPTCHA, takipsiz CAPTCHA, çerez kullanmayan CAPTCHA, anonim CAPTCHA, AB gizlilik CAPTCHA, veri koruma dostu doğrulama
+
+**Teknik Özellikler:**
+canvas parmak izi, WebGL parmak izi, tarayıcı parmak izi, davranışsal analiz CAPTCHA, yapay zeka dirençli CAPTCHA, OCR geçirmez CAPTCHA, headless browser algılama, Selenium algılama, Puppeteer algılama, otomasyon tespiti
+
+**Kullanım Senaryoları:**
+giriş formu koruma, kayıt formu güvenliği, iletişim formu spam önleme, yorum spam engelleyici, oylama sistemi güvenliği, anket bot önleme, hız sınırlama, API koruması, form güvenliği
+
+**Karşılaştırma Aramaları:**
+captcha karşılaştırma, en iyi ücretsiz captcha, google olmadan captcha, üçüncü taraf olmadan captcha, çevrimdışı captcha, bağımsız captcha çözümü, sunucusuz captcha, yerli captcha alternatifi
+
 ### 📄 Lisans
 
 MIT Lisansı - Kişisel ve ticari kullanım için ücretsiz
@@ -315,6 +372,10 @@ MIT Lisansı - Kişisel ve ticari kullanım için ücretsiz
 ### 🤝 Katkıda Bulunma
 
 Pull request'ler hoş geldiniz! Büyük değişiklikler için lütfen önce bir issue açın.
+
+### ⭐ Yıldız Geçmişi
+
+Bu projeyi faydalı buluyorsanız, lütfen GitHub'da yıldız vermeyi düşünün!
 
 ---
 
