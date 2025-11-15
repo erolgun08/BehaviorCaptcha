@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login with Conditional CAPTCHA</title>
+  <script src="blurcaptcha.js" defer></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .login-container {
+      width: 300px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .login-container input {
+      width: calc(100% - 20px);
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #loginButton {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #captchaContainer {
+      margin-top: 10px;
+      display: none; /* CAPTCHA başlangıçta gizli */
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h3>Giriş Yap</h3>
+    <input type="text" id="username" placeholder="Kullanıcı Adı" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <div id="captchaContainer"></div>
+    <button id="loginButton">Giriş Yap</button>
+  </div>
+
+  <script>
+  let failedAttempts = 0; // Başarısız giriş sayacı
+  let wrongPasswordAfterCaptcha = 0; // CAPTCHA sonrası yanlış şifre sayacı
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginButton = document.getElementById("loginButton");
+  const captchaContainer = document.getElementById("captchaContainer");
+
+  // Sayfa yüklenirken timeout kontrolü
+  checkPasswordTimeout();
+
+  // CAPTCHA oluşturma (Başlangıçta gizli)
+  let captchaInstance;
+
+  const showCaptcha = () => {
+    captchaContainer.style.display = "block"; // CAPTCHA görünür hale gelir
+    captchaContainer.innerHTML = ""; // Önceki CAPTCHA'yı temizle
+    captchaInstance = createCaptcha("captchaContainer", {
+      digits: 4,
+      blurLevel: 6,
+      inputSize: 20,
+      instructionText: "Lütfen aşağıdaki sayıları girin",
+      activateButton: "loginButton", // Giriş butonu CAPTCHA sonrası aktif olur
+      serverValidation: false, // Sunucu doğrulaması için true veya false
+      serverUrl: "https://example.com/captcha-validate", // Sunucu doğrulama URL'si
+      onComplete: (digits) => {
+        if (captchaInstance.settings.serverValidation) {
+          // Sunucu doğrulaması
+          fetch(captchaInstance.settings.serverUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ digits }),
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error("CAPTCHA doğrulama başarısız.");
+              return response.json();
+            })
+            .then((data) => {
+              if (data.success) {
+                alert("CAPTCHA doğrulaması başarılı!");
+                loginButton.disabled = false; // Giriş butonunu aktif et
+              } else {
+                alert("CAPTCHA doğrulama başarısız. Tekrar deneyin.");
+              }
+            })
+            .catch((error) => {
+              console.error("Hata:", error);
+              alert("Bir hata oluştu. Tekrar deneyin.");
+            });
+        } else {
+          // Tarayıcı doğrulaması
+          alert("CAPTCHA doğrulaması başarılı!");
+          loginButton.disabled = false; // Giriş butonunu aktif et
+        }
+      },
+    });
+  };
+
+  // Şifre timeout kontrolü
+  function checkPasswordTimeout() {
+    const passwordTimeoutEnd = localStorage.getItem('password_timeout_end');
+    if (passwordTimeoutEnd) {
+      const remainingTime = parseInt(passwordTimeoutEnd, 10) - Date.now();
+      if (remainingTime > 0) {
+        showPasswordTimeoutScreen(remainingTime);
+      } else {
+        localStorage.removeItem('password_timeout_end');
+        localStorage.removeItem('wrong_password_count');
+      }
+    }
+  }
+
+  // Şifre timeout ekranı
+  function showPasswordTimeoutScreen(remainingTime) {
+    loginButton.disabled = true;
+    loginButton.style.opacity = '0.5';
+    loginButton.style.cursor = 'not-allowed';
+
+    document.querySelector('.login-container').style.display = 'none';
+
+    const timeoutDiv = document.createElement('div');
+    timeoutDiv.id = 'passwordTimeoutScreen';
+    timeoutDiv.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+      text-align: center;
+      z-index: 10000;
+      min-width: 350px;
+    `;
+
+    const remainingMinutes = Math.ceil(remainingTime / 60000);
+    const remainingSeconds = Math.ceil(remainingTime / 1000);
+
+    timeoutDiv.innerHTML = `
+      <div style="font-size: 70px; margin-bottom: 15px;">🔐</div>
+      <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">Hesap Geçici Kilitlendi</div>
+      <div style="font-size: 14px; opacity: 0.95; margin-bottom: 20px;">Çok fazla yanlış şifre denemesi</div>
+      <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+        <div style="font-size: 16px; margin-bottom: 5px;">Kalan Süre:</div>
+        <div id="passwordCountdown" style="font-size: 32px; font-weight: bold; font-family: monospace;">${formatTime(remainingSeconds)}</div>
+      </div>
+      <div style="font-size: 12px; opacity: 0.8;">Lütfen ${remainingMinutes} dakika sonra tekrar deneyin</div>
+    `;
+
+    document.body.appendChild(timeoutDiv);
+    startPasswordCountdown(remainingTime);
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  function startPasswordCountdown(remainingTime) {
+    const countdownElement = document.getElementById('passwordCountdown');
+    if (!countdownElement) return;
+
+    let timeLeft = Math.ceil(remainingTime / 1000);
+
+    const interval = setInterval(() => {
+      timeLeft--;
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        localStorage.removeItem('password_timeout_end');
+        localStorage.removeItem('wrong_password_count');
+        location.reload();
+      } else {
+        countdownElement.textContent = formatTime(timeLeft);
+      }
+    }, 1000);
+  }
+
+  // Login butonu tıklama olayı
+  loginButton.addEventListener("click", () => {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (captchaInstance && captchaInstance.settings.serverValidation && captchaContainer.style.display === "block") {
+      // CAPTCHA çözülmeden giriş yapılamaz
+      alert("Lütfen CAPTCHA doğrulamasını tamamlayın.");
+      return;
+    }
+
+    if (username === "admin" && password === "12345") {
+      // ✅ BAŞARILI GİRİŞ
+      alert("Başarıyla giriş yaptınız!");
+      localStorage.removeItem('wrong_password_count');
+      localStorage.removeItem('captcha_last_success');
+      failedAttempts = 0;
+      wrongPasswordAfterCaptcha = 0;
+    } else {
+      // ❌ YANLIŞ ŞİFRE
+      failedAttempts++;
+
+      // CAPTCHA başarıyla çözüldü mü kontrol et
+      const lastCaptchaSuccess = localStorage.getItem('captcha_last_success');
+      const captchaWasSolved = lastCaptchaSuccess && (Date.now() - parseInt(lastCaptchaSuccess, 10)) < 60000; // Son 1 dakika içinde
+
+      if (captchaWasSolved) {
+        // CAPTCHA çözüldü ama şifre yanlış
+        wrongPasswordAfterCaptcha++;
+        localStorage.setItem('wrong_password_count', wrongPasswordAfterCaptcha.toString());
+
+        console.warn(`⚠️ CAPTCHA çözüldü ama yanlış şifre: ${wrongPasswordAfterCaptcha}/4`);
+
+        if (wrongPasswordAfterCaptcha >= 4) {
+          // 4 kere CAPTCHA çözüp yanlış şifre girdi - ŞÜPHELİ!
+          const timeoutDuration = 3 * 60 * 1000; // 3 dakika
+          const timeoutEnd = Date.now() + timeoutDuration;
+          localStorage.setItem('password_timeout_end', timeoutEnd.toString());
+
+          alert("⚠️ Şüpheli aktivite tespit edildi!\n\nCAPTCHA'yı 4 kere çözdünüz ama şifre hep yanlış.\n\n3 dakika süreyle hesap kilitlendi.");
+          setTimeout(() => location.reload(), 2000);
+          return;
+        } else {
+          alert(`Kullanıcı adı veya şifre hatalı. (${wrongPasswordAfterCaptcha}/4 yanlış şifre)`);
+          // CAPTCHA'yı yenile
+          captchaContainer.innerHTML = "";
+          captchaContainer.style.display = "none";
+          showCaptcha();
+        }
+      } else {
+        // Normal hatalı giriş
+        if (failedAttempts >= 2) {
+          alert("2 hatalı giriş yaptınız. CAPTCHA doğrulaması gerekiyor.");
+          showCaptcha();
+        } else {
+          alert("Kullanıcı adı veya şifre hatalı. Tekrar deneyin.");
+        }
+      }
+    }
+  });
+});
+
+  </script>
+</body>
+</html>

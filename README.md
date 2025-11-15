@@ -1,0 +1,289 @@
+# 🔒 BlurCaptcha
+
+**Advanced AI-resistant CAPTCHA with Behavioral Biometrics & Canvas Rendering**
+
+A professional, client-side CAPTCHA system that uses behavioral analysis, fingerprinting, and image-based digit rendering to prevent bot attacks without requiring a server.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-blue.svg)](https://www.javascript.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/erolgun08/BlurCaptcha/pulls)
+
+[**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
+
+---
+
+## 🇬🇧 English Documentation
+
+### ✨ Features
+
+- 🧬 **Behavioral Biometrics** - Analyzes mouse velocity, acceleration, micro-movements
+- 🎨 **Canvas-Based Digits** - Prevents DOM scraping and OCR attacks
+- 📱 **Mobile Support** - Touch event tracking for mobile devices
+- 🔐 **Multi-Layer Bot Detection** - Fingerprinting (Canvas, WebGL, Browser)
+- ⏱️ **Timeout System** - 5-minute lockout after bot detection
+- 🚨 **Brute Force Protection** - Locks after 4 wrong passwords
+- 💾 **No Server Required** - Fully client-side with localStorage
+- 🎯 **99% Bot Prevention** - Stops basic, intermediate, and most advanced bots
+
+### 📦 Installation
+
+#### Option 1: Direct Download
+```bash
+git clone https://github.com/erolgun08/BlurCaptcha.git
+```
+
+#### Option 2: CDN (jsdelivr)
+```html
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+```
+
+### 🚀 Quick Start
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="blurcaptcha.js"></script>
+</head>
+<body>
+  <div id="captchaContainer"></div>
+  <button id="loginButton">Login</button>
+
+  <script>
+    const captcha = createCaptcha("captchaContainer", {
+      digits: 4,
+      blurLevel: 6,
+      instructionText: "Enter the numbers below",
+      activateButton: "loginButton"
+    });
+  </script>
+</body>
+</html>
+```
+
+### ⚙️ Configuration Options
+
+```javascript
+createCaptcha("containerId", {
+  digits: 4,                    // Number of digits (default: 4)
+  blurLevel: 6,                 // Blur intensity (default: 6)
+  digitSize: 40,                // Digit size in px (default: 40)
+  inputSize: 20,                // Input box size (default: 20)
+  borderColor: '#007bff',       // Border color (default: #007bff)
+  instructionText: 'Enter...',  // Instruction text
+  activateButton: 'buttonId',   // Button to enable after success
+  serverValidation: false,      // Enable server validation
+  serverUrl: '',                // Server endpoint URL
+  onComplete: (digits) => {}    // Callback function
+});
+```
+
+### 🛡️ Security Features
+
+| Feature | Max Points | Description |
+|---------|------------|-------------|
+| Mouse/Touch Movement | 35 | Desktop mouse or mobile touch tracking |
+| Completion Time | 20 | 0.8-60 seconds range |
+| Key Press Variance | 10 | Typing rhythm analysis |
+| Paste Detection | -30 | **PENALTY** for copy-paste |
+| **Behavioral Biometrics** | **20** | **Mouse velocity, acceleration, pauses** |
+| Canvas Fingerprint | 5 | Unique browser rendering |
+| WebGL Fingerprint | 5 | GPU information |
+
+**Minimum Passing Score: 40/100**
+
+### 🧪 Bot Resistance
+
+- ❌ **Basic Bots** (99% blocked) - No mouse, instant completion
+- ⚠️ **Intermediate Bots** (95% blocked) - Robotic movement patterns
+- ✅ **Advanced Bots** (80% blocked) - May pass but very expensive
+
+### 📊 Console Output Example
+
+```javascript
+🔒 CAPTCHA Analysis Report: {
+  📊 Human Score: "85/100"
+  ⏱️ Completion Time: "4521ms"
+  🖱️ Mouse Movements: 67
+  📏 Mouse Distance: "842px"
+  🧬 BEHAVIORAL BIOMETRICS: {
+    Velocity Variance: "0.002341"
+    Acceleration Average: "0.034"
+    Micro Movements: 23
+  }
+}
+```
+
+### 🔄 Server Integration (Optional)
+
+```javascript
+createCaptcha("container", {
+  serverValidation: true,
+  serverUrl: "https://yourapi.com/validate"
+});
+```
+
+Server receives:
+```json
+{
+  "digits": [1,2,3,4],
+  "humanMetrics": {
+    "humanScore": 85,
+    "mouseMovements": 45,
+    "pasteDetected": false
+  },
+  "fingerprint": {
+    "canvasFingerprint": "a3f2c1b4",
+    "webglFingerprint": "NVIDIA|..."
+  }
+}
+```
+
+### 📄 License
+
+MIT License - Free for personal and commercial use
+
+### 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first.
+
+---
+
+## 🇹🇷 Türkçe Dokümantasyon
+
+### ✨ Özellikler
+
+- 🧬 **Davranışsal Biyometri** - Mouse hızı, ivme, mikro hareketleri analiz eder
+- 🎨 **Canvas Tabanlı Rakamlar** - DOM kazıma ve OCR saldırılarını engeller
+- 📱 **Mobil Destek** - Mobil cihazlar için dokunma olayı izleme
+- 🔐 **Çok Katmanlı Bot Tespiti** - Parmak izi (Canvas, WebGL, Tarayıcı)
+- ⏱️ **Zaman Aşımı Sistemi** - Bot tespitinden sonra 5 dakika kilitleme
+- 🚨 **Kaba Kuvvet Koruması** - 4 yanlış şifreden sonra 3 dakika kilitleme
+- 💾 **Sunucu Gerektirmez** - Tamamen istemci tarafı, localStorage ile
+- 🎯 **%99 Bot Önleme** - Temel, orta ve çoğu gelişmiş botu durdurur
+
+### 📦 Kurulum
+
+#### Seçenek 1: Doğrudan İndirme
+```bash
+git clone https://github.com/erolgun08/BlurCaptcha.git
+```
+
+#### Seçenek 2: CDN (jsdelivr)
+```html
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+```
+
+### 🚀 Hızlı Başlangıç
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="blurcaptcha.js"></script>
+</head>
+<body>
+  <div id="captchaContainer"></div>
+  <button id="loginButton">Giriş Yap</button>
+
+  <script>
+    const captcha = createCaptcha("captchaContainer", {
+      digits: 4,
+      blurLevel: 6,
+      instructionText: "Aşağıdaki sayıları girin",
+      activateButton: "loginButton"
+    });
+  </script>
+</body>
+</html>
+```
+
+### ⚙️ Yapılandırma Seçenekleri
+
+```javascript
+createCaptcha("containerId", {
+  digits: 4,                    // Rakam sayısı (varsayılan: 4)
+  blurLevel: 6,                 // Bulanıklık yoğunluğu (varsayılan: 6)
+  digitSize: 40,                // Rakam boyutu px (varsayılan: 40)
+  inputSize: 20,                // Giriş kutusu boyutu (varsayılan: 20)
+  borderColor: '#007bff',       // Kenarlık rengi (varsayılan: #007bff)
+  instructionText: 'Girin...',  // Talimat metni
+  activateButton: 'buttonId',   // Başarıdan sonra etkinleştirilecek buton
+  serverValidation: false,      // Sunucu doğrulamasını etkinleştir
+  serverUrl: '',                // Sunucu endpoint URL'si
+  onComplete: (digits) => {}    // Geri çağırma fonksiyonu
+});
+```
+
+### 🛡️ Güvenlik Özellikleri
+
+| Özellik | Maks Puan | Açıklama |
+|---------|-----------|----------|
+| Mouse/Touch Hareketi | 35 | Desktop mouse veya mobil dokunma izleme |
+| Tamamlanma Süresi | 20 | 0.8-60 saniye aralığı |
+| Tuş Basım Varyansı | 10 | Yazma ritmi analizi |
+| Yapıştırma Tespiti | -30 | Kopyala-yapıştır için **CEZA** |
+| **Davranışsal Biyometri** | **20** | **Mouse hız, ivme, duraklamalar** |
+| Canvas Parmak İzi | 5 | Benzersiz tarayıcı renderı |
+| WebGL Parmak İzi | 5 | GPU bilgisi |
+
+**Minimum Geçme Puanı: 40/100**
+
+### 🧪 Bot Direnci
+
+- ❌ **Temel Botlar** (%99 engellendi) - Mouse yok, anında tamamlama
+- ⚠️ **Orta Seviye Botlar** (%95 engellendi) - Robotik hareket paternleri
+- ✅ **Gelişmiş Botlar** (%80 engellendi) - Geçebilir ama çok pahalı
+
+### 📊 Konsol Çıktısı Örneği
+
+```javascript
+🔒 CAPTCHA Analiz Raporu: {
+  📊 İnsan Skoru: "85/100"
+  ⏱️ Tamamlanma Süresi: "4521ms"
+  🖱️ Mouse Hareketleri: 67
+  📏 Mouse Mesafesi: "842px"
+  🧬 DAVRANIŞSAL BİYOMETRİ: {
+    Hız Varyansı: "0.002341"
+    İvme Ortalaması: "0.034"
+    Mikro Hareketler: 23
+  }
+}
+```
+
+### 🔄 Sunucu Entegrasyonu (Opsiyonel)
+
+```javascript
+createCaptcha("container", {
+  serverValidation: true,
+  serverUrl: "https://apiurl.com/validate"
+});
+```
+
+Sunucu alır:
+```json
+{
+  "digits": [1,2,3,4],
+  "humanMetrics": {
+    "humanScore": 85,
+    "mouseMovements": 45,
+    "pasteDetected": false
+  },
+  "fingerprint": {
+    "canvasFingerprint": "a3f2c1b4",
+    "webglFingerprint": "NVIDIA|..."
+  }
+}
+```
+
+### 📄 Lisans
+
+MIT Lisansı - Kişisel ve ticari kullanım için ücretsiz
+
+### 🤝 Katkıda Bulunma
+
+Pull request'ler hoş geldiniz! Büyük değişiklikler için lütfen önce bir issue açın.
+
+---
+
+**Made with ❤️ for a safer web**

@@ -1,0 +1,40 @@
+{
+  "name": "blurcaptcha",
+  "version": "1.0.0",
+  "description": "Advanced AI-resistant CAPTCHA with Behavioral Biometrics & Canvas Rendering",
+  "main": "blurcaptcha.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erolgun08/BlurCaptcha.git"
+  },
+  "keywords": [
+    "captcha",
+    "security",
+    "bot-detection",
+    "behavioral-biometrics",
+    "canvas",
+    "fingerprinting",
+    "anti-bot",
+    "client-side",
+    "authentication",
+    "spam-protection"
+  ],
+  "author": "BlurCaptcha Contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erolgun08/BlurCaptcha/issues"
+  },
+  "homepage": "https://github.com/erolgun08/BlurCaptcha#readme",
+  "files": [
+    "blurcaptcha.js",
+    "demo.html",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
