@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BlurCaptcha - Advanced AI-resistant CAPTCHA with Behavioral Biometrics & Canvas Rendering. 99% Bot Prevention. Free and Open Source.">
+  <meta name="keywords" content="captcha, bot detection, security, javascript, behavioral biometrics, anti-bot, open source">
+  <title>BlurCaptcha - AI-Resistant CAPTCHA with Behavioral Biometrics</title>
+  <script src="blurcaptcha.js" defer></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      max-width: 800px;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .tagline {
+      font-size: 20px;
+      opacity: 0.95;
+      margin-bottom: 20px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .demo-container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .demo-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .demo-container input {
+      width: calc(100% - 20px);
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #loginButton {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #667eea;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    #loginButton:hover {
+      background-color: #5568d3;
+    }
+
+    #loginButton:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    #captchaContainer {
+      margin: 20px 0;
+    }
+
+    .features {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .features h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .feature-item .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .feature-item h4 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .feature-item p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .cta {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      color: white;
+      text-align: center;
+    }
+
+    .cta h3 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: 2px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: white;
+      color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item .number {
+      font-size: 36px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .stat-item .label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .code-snippet {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .demo-container {
+        padding: 20px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔒 BlurCaptcha</h1>
+    <p class="tagline">Advanced AI-resistant CAPTCHA with Behavioral Biometrics</p>
+    <div class="badges">
+      <span class="badge">🧬 Behavioral Analysis</span>
+      <span class="badge">🎨 Canvas Rendering</span>
+      <span class="badge">📱 Mobile Support</span>
+      <span class="badge">💾 No Server Required</span>
+    </div>
+  </div>
+
+  <div class="demo-container">
+    <h2>🎯 Live Demo</h2>
+    <p style="text-align: center; color: #666; margin-bottom: 20px;">Try the CAPTCHA below (Username: admin, Password: 12345)</p>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <div id="captchaContainer"></div>
+    <button id="loginButton">Login</button>
+  </div>
+
+  <div class="features">
+    <h3>✨ Key Features</h3>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="icon">🧬</div>
+        <h4>Behavioral Biometrics</h4>
+        <p>Analyzes mouse velocity, acceleration, and micro-movements</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🎨</div>
+        <h4>Canvas-Based</h4>
+        <p>Prevents DOM scraping and OCR attacks</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🔐</div>
+        <h4>Multi-Layer Detection</h4>
+        <p>Canvas, WebGL, and browser fingerprinting</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">⏱️</div>
+        <h4>Smart Timeouts</h4>
+        <p>5-minute lockout after bot detection</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h3>🚀 Get Started</h3>
+    <div class="stats">
+      <div class="stat-item">
+        <div class="number">99%</div>
+        <div class="label">Bot Prevention</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">0</div>
+        <div class="label">Server Required</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">4KB</div>
+        <div class="label">File Size</div>
+      </div>
+    </div>
+
+    <div class="code-snippet">
+&lt;script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"&gt;&lt;/script&gt;
+
+&lt;div id="captchaContainer"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  createCaptcha("captchaContainer", {
+    digits: 4,
+    blurLevel: 6,
+    instructionText: "Enter the numbers below"
+  });
+&lt;/script&gt;
+    </div>
+
+    <div class="cta-buttons">
+      <a href="https://github.com/erolgun08/BlurCaptcha" class="btn" target="_blank">📦 View on GitHub</a>
+      <a href="https://github.com/erolgun08/BlurCaptcha#readme" class="btn" target="_blank">📚 Documentation</a>
+      <a href="demo.html" class="btn">🎮 Full Demo</a>
+    </div>
+  </div>
+
+  <script>
+    let failedAttempts = 0;
+    let captchaInstance;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginButton = document.getElementById("loginButton");
+      const captchaContainer = document.getElementById("captchaContainer");
+
+      const showCaptcha = () => {
+        captchaContainer.innerHTML = "";
+        captchaInstance = createCaptcha("captchaContainer", {
+          digits: 4,
+          blurLevel: 6,
+          inputSize: 20,
+          instructionText: "Enter the numbers below",
+          activateButton: "loginButton",
+          serverValidation: false,
+          onComplete: (digits) => {
+            console.log("✅ CAPTCHA completed!");
+            loginButton.disabled = false;
+          },
+        });
+      };
+
+      loginButton.addEventListener("click", () => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "12345") {
+          alert("✅ Login successful!");
+          failedAttempts = 0;
+          captchaContainer.innerHTML = "";
+          captchaContainer.style.display = "none";
+        } else {
+          failedAttempts++;
+          if (failedAttempts >= 2) {
+            alert("❌ 2 failed attempts. Please complete CAPTCHA.");
+            showCaptcha();
+          } else {
+            alert("❌ Invalid credentials. Try again.");
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

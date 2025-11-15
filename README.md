@@ -8,7 +8,10 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6-blue.svg)](https://www.javascript.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/erolgun08/BlurCaptcha/pulls)
 
-[**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
+**[🌐 Live Demo](https://erolgun08.github.io/BlurCaptcha/)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
+
+> **Free alternative to Google reCAPTCHA, hCaptcha, and Cloudflare Turnstile**
+> No tracking, no cookies, no external dependencies - 100% privacy-focused
 
 ---
 
@@ -98,6 +101,18 @@ createCaptcha("containerId", {
 - ⚠️ **Intermediate Bots** (95% blocked) - Robotic movement patterns
 - ✅ **Advanced Bots** (80% blocked) - May pass but very expensive
 
+### 🆚 Why BlurCaptcha?
+
+| Feature | BlurCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
+|---------|-------------|------------------|----------|---------------------|
+| **Privacy** | ✅ No tracking | ❌ Tracks users | ❌ Tracks users | ⚠️ Limited tracking |
+| **Server Required** | ❌ No | ✅ Yes | ✅ Yes | ✅ Yes |
+| **External Dependencies** | ❌ None | ✅ Google API | ✅ hCaptcha API | ✅ Cloudflare API |
+| **Free** | ✅ MIT License | ⚠️ Limited free tier | ⚠️ Limited free tier | ⚠️ Limited free tier |
+| **Behavioral Analysis** | ✅ Advanced | ❌ Basic | ❌ Basic | ⚠️ Unknown |
+| **Open Source** | ✅ Yes | ❌ No | ❌ No | ❌ No |
+| **Customizable** | ✅ Fully | ❌ Limited | ❌ Limited | ❌ Limited |
+
 ### 📊 Console Output Example
 
 ```javascript
@@ -139,6 +154,19 @@ Server receives:
 }
 ```
 
+### 🎯 Use Cases
+
+- **Login Forms** - Prevent credential stuffing attacks
+- **Registration Pages** - Block fake account creation
+- **Contact Forms** - Stop spam submissions
+- **Comment Sections** - Prevent bot spam
+- **API Rate Limiting** - Add human verification layer
+- **Voting/Polling** - Ensure one vote per person
+
+### 🔍 SEO Keywords
+
+Free CAPTCHA, reCAPTCHA alternative, hCaptcha alternative, privacy-focused CAPTCHA, client-side CAPTCHA, JavaScript CAPTCHA, behavioral biometrics CAPTCHA, bot detection, anti-spam, no tracking CAPTCHA, open source CAPTCHA, self-hosted CAPTCHA
+
 ### 📄 License
 
 MIT License - Free for personal and commercial use
@@ -146,6 +174,10 @@ MIT License - Free for personal and commercial use
 ### 🤝 Contributing
 
 Pull requests are welcome! For major changes, please open an issue first.
+
+### ⭐ Star History
+
+If you find this project useful, please consider giving it a star on GitHub!
 
 ---
 
