@@ -342,6 +342,8 @@
 
       const showCaptcha = () => {
         captchaContainer.innerHTML = "";
+        captchaContainer.style.display = "block";
+        loginButton.disabled = true;
         captchaInstance = createCaptcha("captchaContainer", {
           digits: 4,
           blurLevel: 6,
@@ -351,6 +353,8 @@
           serverValidation: false,
           onComplete: (digits) => {
             console.log("✅ CAPTCHA completed!");
+            // CAPTCHA başarılı - sayacı sıfırla
+            failedAttempts = 0;
             loginButton.disabled = false;
           },
         });
