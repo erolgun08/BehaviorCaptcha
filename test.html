@@ -254,6 +254,37 @@ document.getElementById('submitBtn').disabled = false;
     <div id="test7-result" class="test-result" style="display:none;"></div>
   </div>
 
+  <!-- Test 8: Honeypot Detection -->
+  <div class="test-section">
+    <h2>🍯 Test 8: Honeypot Detection <span class="badge pending" id="test8-badge">Not Run</span></h2>
+    <p>Test invisible honeypot trap for bot detection</p>
+
+    <button class="test-button" onclick="findHoneypotTest()">
+      🔍 Find Honeypot Field
+    </button>
+    <button class="test-button danger" onclick="fillHoneypotTest()">
+      🚨 Fill Honeypot (Simulate Bot)
+    </button>
+    <button class="test-button success" onclick="bypassHoneypotTest()">
+      ✅ Bypass Honeypot (Human Behavior)
+    </button>
+
+    <div class="code-block">
+      <pre>// Honeypot Strategy:
+1. Invisible field auto-focuses (bot doesn't see it)
+2. Bot fills focused field → 🚨 INSTANT DETECTION
+3. Human uses mouse → clicks real input → ✅ +5 bonus
+
+// How it works:
+- Field is invisible (opacity:0 or position:-9999px)
+- Auto-focuses after 100ms
+- Bots fill it without knowing
+- Humans never see it, use mouse instead</pre>
+    </div>
+
+    <div id="test8-result" class="test-result" style="display:none;"></div>
+  </div>
+
   <!-- Console Monitor -->
   <div class="test-section">
     <h2>📊 Live Console Monitor</h2>
@@ -491,6 +522,115 @@ document.getElementById('submitBtn').disabled = false;
       sessionStorage.setItem('captcha_expiry_captchaContainer', (Date.now() - 1000).toString());
       showResult('test7', '✅ Token forcefully expired. Try enabling button - should fail.', 'success');
       updateBadge('test7', 'pass');
+    }
+
+    // TEST 8: HONEYPOT FUNCTIONS
+
+    function findHoneypotTest() {
+      const honeypots = document.querySelectorAll('[id^="captcha_honeypot"]');
+
+      if (honeypots.length === 0) {
+        showResult('test8', '❌ No honeypot found!', 'error');
+        updateBadge('test8', 'fail');
+        return;
+      }
+
+      const honeypot = honeypots[0];
+      const styles = window.getComputedStyle(honeypot);
+
+      showResult('test8', `
+        <strong>🍯 Honeypot Found!</strong><br>
+        <br>
+        <strong>Field Info:</strong><br>
+        - ID: ${honeypot.id}<br>
+        - Name: ${honeypot.name}<br>
+        - Type: ${honeypot.type}<br>
+        <br>
+        <strong>Visibility:</strong><br>
+        - Position: ${styles.position}<br>
+        - Top: ${styles.top}<br>
+        - Left: ${styles.left}<br>
+        - Opacity: ${styles.opacity}<br>
+        - Display: ${styles.display}<br>
+        - Visible: ${honeypot.offsetParent !== null ? '✅ YES (bad!)' : '❌ NO (good!)'}<br>
+        <br>
+        <strong>Status:</strong><br>
+        - Focused: ${document.activeElement === honeypot ? '✅ Yes' : '❌ No'}<br>
+        - Value: "${honeypot.value}" (should be empty)
+      `, 'success');
+      updateBadge('test8', 'pass');
+    }
+
+    function fillHoneypotTest() {
+      logToConsole('🚨 Simulating bot: Filling honeypot field...', 'error');
+
+      const honeypots = document.querySelectorAll('[id^="captcha_honeypot"]');
+
+      if (honeypots.length === 0) {
+        showResult('test8', '❌ No honeypot found!', 'error');
+        return;
+      }
+
+      const honeypot = honeypots[0];
+
+      // Simulate bot filling the field
+      honeypot.value = 'bot@filled.this';
+      honeypot.dispatchEvent(new Event('input', { bubbles: true }));
+
+      setTimeout(() => {
+        const botAttempts = localStorage.getItem('captcha_bot_attempts') || '0';
+
+        showResult('test8', `
+          <strong>🚨 HONEYPOT TRIGGERED!</strong><br>
+          <br>
+          Expected behavior:<br>
+          ✅ Bot detected message shown<br>
+          ✅ Bot attempts increased: ${botAttempts}<br>
+          ✅ CAPTCHA reset<br>
+          <br>
+          This is how bots get caught instantly!
+        `, 'error');
+        updateBadge('test8', 'pass');
+      }, 500);
+    }
+
+    function bypassHoneypotTest() {
+      logToConsole('✅ Simulating human: Using mouse to bypass honeypot...', 'success');
+
+      const realInputs = document.querySelectorAll('#captchaContainer input[type="text"]:not([id^="captcha_honeypot"])');
+
+      if (realInputs.length === 0) {
+        showResult('test8', '❌ No real inputs found! Solve CAPTCHA first.', 'error');
+        return;
+      }
+
+      // Simulate human clicking real input
+      const firstInput = realInputs[0];
+
+      // Focus honeypot first (automatic)
+      const honeypots = document.querySelectorAll('[id^="captcha_honeypot"]');
+      if (honeypots.length > 0) {
+        honeypots[0].focus();
+      }
+
+      // Then human clicks real input
+      setTimeout(() => {
+        firstInput.focus();
+        firstInput.click();
+
+        showResult('test8', `
+          <strong>✅ Human Behavior Simulated!</strong><br>
+          <br>
+          Sequence:<br>
+          1. Honeypot auto-focused ✅<br>
+          2. Human used mouse to click real input ✅<br>
+          3. Bonus points awarded (+5) ✅<br>
+          <br>
+          Console should show:<br>
+          "✅ Mouse movement detected: Honeypot → Real input"
+        `, 'success');
+        updateBadge('test8', 'pass');
+      }, 200);
     }
 
     // UTILITY FUNCTIONS

@@ -11,7 +11,7 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 [![GitHub Forks](https://img.shields.io/github/forks/erolgun08/BlurCaptcha?style=social)](https://github.com/erolgun08/BlurCaptcha/network/members)
 [![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hm/erolgun08/BlurCaptcha)](https://www.jsdelivr.com/package/gh/erolgun08/BlurCaptcha)
 
-**[🌐 Live Demo](https://erolgun08.github.io/BlurCaptcha/)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
+**[🌐 Live Demo](https://erolgun08.github.io/BlurCaptcha/)** | **[🧪 Test Suite](https://erolgun08.github.io/BlurCaptcha/test.html)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
 
 > **Free alternative to Google reCAPTCHA, hCaptcha, and Cloudflare Turnstile**
 > No tracking, no cookies, no external dependencies - 100% privacy-focused
@@ -24,12 +24,15 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 
 - 🧬 **Behavioral Biometrics** - Analyzes mouse velocity, acceleration, micro-movements
 - 🎨 **Canvas-Based Digits** - Prevents DOM scraping and OCR attacks
-- 📱 **Mobile Support** - Touch event tracking for mobile devices
+- 🍯 **Invisible Honeypot** - Traps bots with hidden fields (auto-fill detection)
 - 🔐 **Multi-Layer Bot Detection** - Fingerprinting (Canvas, WebGL, Browser)
+- 🛡️ **Anti-Tampering Protection** - Detects console manipulation attempts
+- 🔑 **Verification Tokens** - Cryptographic proof of solving
+- 📱 **Mobile Support** - Touch event tracking for mobile devices
 - ⏱️ **Timeout System** - 5-minute lockout after bot detection
 - 🚨 **Brute Force Protection** - Locks after 4 wrong passwords
 - 💾 **No Server Required** - Fully client-side with localStorage
-- 🎯 **99% Bot Prevention** - Stops basic, intermediate, and most advanced bots
+- 🎯 **99%+ Bot Prevention** - Stops basic, intermediate, and most advanced bots
 
 ### 📦 Installation
 
@@ -130,13 +133,21 @@ createCaptcha("containerId", {
 |---------|------------|-------------|
 | Mouse/Touch Movement | 35 | Desktop mouse or mobile touch tracking |
 | Completion Time | 20 | 0.8-60 seconds range |
-| Key Press Variance | 10 | Typing rhythm analysis |
-| Paste Detection | -30 | **PENALTY** for copy-paste |
 | **Behavioral Biometrics** | **20** | **Mouse velocity, acceleration, pauses** |
+| Key Press Variance | 10 | Typing rhythm analysis |
 | Canvas Fingerprint | 5 | Unique browser rendering |
 | WebGL Fingerprint | 5 | GPU information |
+| **Honeypot Bypass** | **+5** | **Bonus for mouse movement detection** |
+| Paste Detection | -30 | **PENALTY** for copy-paste |
+| **Honeypot Triggered** | **-100** | **INSTANT FAIL** if invisible field filled |
 
 **Minimum Passing Score: 40/100**
+
+**New Security Layers:**
+- 🍯 **Honeypot**: Invisible field auto-focuses, bots fill it → instant detection
+- 🔑 **Token System**: Cryptographic proof prevents replay attacks
+- 🛡️ **Anti-Tampering**: MutationObserver detects console bypass attempts
+- ⏱️ **Token Expiry**: 1-minute validity prevents token reuse
 
 ### 🧪 Bot Resistance
 
@@ -149,6 +160,30 @@ createCaptcha("containerId", {
 **[📖 Read detailed analysis →](ADVANCED_SECURITY.md)**
 
 **Real-world impact:** Turns $10 attack into $5,000 attack → Attackers move to easier targets 🎯
+
+### 🧪 Testing & Security Validation
+
+**[🔬 Interactive Test Suite](https://erolgun08.github.io/BlurCaptcha/test.html)**
+
+Test all security features in real-time:
+
+✅ **Test 1: Normal Flow** - Verify token generation
+✅ **Test 2: Button Bypass** - Try `button.disabled = false`
+✅ **Test 3: Token System** - Check token validity & expiry
+✅ **Test 4: Storage Tampering** - Try `localStorage.clear()`
+✅ **Test 5: onComplete Callback** - Verify data structure
+✅ **Test 6: Anti-Tampering** - Rapid bypass attempts
+✅ **Test 7: Token Expiration** - 1-minute expiry test
+✅ **Test 8: Honeypot Detection** - Auto-fill bot trap
+
+**Live Console Monitor** shows real-time security events!
+
+```javascript
+// Example test: Try to bypass
+document.getElementById('submitBtn').disabled = false;
+// Console: 🚨 Unauthorized button enable detected - Re-disabling
+// Result: Button re-disabled, bot attempts +1
+```
 
 ### 🆚 Why BlurCaptcha?
 
@@ -252,12 +287,15 @@ If you find this project useful, please consider giving it a star on GitHub!
 
 - 🧬 **Davranışsal Biyometri** - Mouse hızı, ivme, mikro hareketleri analiz eder
 - 🎨 **Canvas Tabanlı Rakamlar** - DOM kazıma ve OCR saldırılarını engeller
-- 📱 **Mobil Destek** - Mobil cihazlar için dokunma olayı izleme
+- 🍯 **Görünmez Honeypot** - Gizli alanlarla botları tuzağa düşürür (otomatik doldurma tespiti)
 - 🔐 **Çok Katmanlı Bot Tespiti** - Parmak izi (Canvas, WebGL, Tarayıcı)
+- 🛡️ **Müdahale Önleme Koruması** - Konsol manipülasyon denemelerini algılar
+- 🔑 **Doğrulama Token'ları** - Çözümün kriptografik kanıtı
+- 📱 **Mobil Destek** - Mobil cihazlar için dokunma olayı izleme
 - ⏱️ **Zaman Aşımı Sistemi** - Bot tespitinden sonra 5 dakika kilitleme
 - 🚨 **Kaba Kuvvet Koruması** - 4 yanlış şifreden sonra 3 dakika kilitleme
 - 💾 **Sunucu Gerektirmez** - Tamamen istemci tarafı, localStorage ile
-- 🎯 **%99 Bot Önleme** - Temel, orta ve çoğu gelişmiş botu durdurur
+- 🎯 **%99+ Bot Önleme** - Temel, orta ve çoğu gelişmiş botu durdurur
 
 ### 📦 Kurulum
 
