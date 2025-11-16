@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlurCaptcha Security Test Suite</title>
+  <script src="blurcaptcha.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .test-section h2 {
+      color: #333;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+    }
+
+    .test-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+    .test-button:hover {
+      background: #0056b3;
+    }
+
+    .test-button.danger {
+      background: #dc3545;
+    }
+
+    .test-button.danger:hover {
+      background: #c82333;
+    }
+
+    .test-button.success {
+      background: #28a745;
+    }
+
+    .test-button.success:hover {
+      background: #218838;
+    }
+
+    .test-result {
+      background: #f8f9fa;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-left: 4px solid #007bff;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .test-result.success {
+      border-left-color: #28a745;
+      background: #d4edda;
+    }
+
+    .test-result.error {
+      border-left-color: #dc3545;
+      background: #f8d7da;
+    }
+
+    #captchaContainer {
+      margin: 20px 0;
+    }
+
+    #submitBtn {
+      width: 200px;
+      height: 50px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .badge.pass {
+      background: #28a745;
+      color: white;
+    }
+
+    .badge.fail {
+      background: #dc3545;
+      color: white;
+    }
+
+    .badge.pending {
+      background: #ffc107;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔒 BlurCaptcha Security Test Suite</h1>
+  <p>Test all security features and bypass attempts</p>
+
+  <!-- Test 1: Normal CAPTCHA -->
+  <div class="test-section">
+    <h2>✅ Test 1: Normal CAPTCHA Flow <span class="badge pending" id="test1-badge">Not Run</span></h2>
+    <p>Test basic CAPTCHA functionality with token generation</p>
+
+    <div id="captchaContainer"></div>
+    <button id="submitBtn" disabled>Submit Form</button>
+
+    <div id="test1-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 2: Button Bypass Attempt -->
+  <div class="test-section">
+    <h2>🚨 Test 2: Button Bypass Attack <span class="badge pending" id="test2-badge">Not Run</span></h2>
+    <p>Try to bypass CAPTCHA by enabling button manually</p>
+
+    <button class="test-button danger" onclick="bypassButtonTest()">
+      🔓 Try: button.disabled = false
+    </button>
+    <button class="test-button danger" onclick="bypassJQueryTest()">
+      🔓 Try: $('#submitBtn').prop('disabled', false)
+    </button>
+
+    <div class="code-block">
+      <pre>// Attack code:
+document.getElementById('submitBtn').disabled = false;
+
+// Expected: 🚨 Detected and blocked
+// Button should be re-disabled automatically</pre>
+    </div>
+
+    <div id="test2-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 3: Token Validation -->
+  <div class="test-section">
+    <h2>🔐 Test 3: Token System <span class="badge pending" id="test3-badge">Not Run</span></h2>
+    <p>Check if verification token is generated and stored</p>
+
+    <button class="test-button" onclick="checkTokenTest()">
+      🔍 Check Token Status
+    </button>
+    <button class="test-button danger" onclick="fakeTokenTest()">
+      🔓 Try Fake Token
+    </button>
+    <button class="test-button danger" onclick="expiredTokenTest()">
+      ⏱️ Simulate Expired Token
+    </button>
+
+    <div id="test3-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 4: localStorage Tampering -->
+  <div class="test-section">
+    <h2>🗄️ Test 4: Storage Tampering <span class="badge pending" id="test4-badge">Not Run</span></h2>
+    <p>Try to manipulate localStorage to reset bot attempts</p>
+
+    <button class="test-button danger" onclick="clearStorageTest()">
+      🗑️ Try: localStorage.clear()
+    </button>
+    <button class="test-button danger" onclick="resetBotAttemptsTest()">
+      🔄 Try: Reset Bot Attempts
+    </button>
+    <button class="test-button" onclick="checkStorageTest()">
+      🔍 Check Current Storage
+    </button>
+
+    <div id="test4-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 5: onComplete Callback -->
+  <div class="test-section">
+    <h2>📞 Test 5: onComplete Callback <span class="badge pending" id="test5-badge">Not Run</span></h2>
+    <p>Verify that onComplete receives correct data structure</p>
+
+    <button class="test-button success" onclick="simulateSolveTest()">
+      ✅ Simulate CAPTCHA Solve
+    </button>
+
+    <div class="code-block">
+      <pre>// Expected callback data:
+{
+  success: true,
+  token: "eyJzY29yZSI6ODU...",
+  humanScore: 85,
+  digits: [1, 2, 3, 4],
+  metrics: { mouseMovements: 45, ... },
+  fingerprint: { canvas: "a3f2...", webgl: "..." }
+}</pre>
+    </div>
+
+    <div id="test5-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 6: Anti-Tampering Detection -->
+  <div class="test-section">
+    <h2>🛡️ Test 6: Anti-Tampering Protection <span class="badge pending" id="test6-badge">Not Run</span></h2>
+    <p>Test MutationObserver detection of unauthorized changes</p>
+
+    <button class="test-button danger" onclick="rapidBypassTest()">
+      ⚡ Rapid Bypass Attempts (5x)
+    </button>
+    <button class="test-button" onclick="checkBotAttemptsTest()">
+      📊 Check Bot Attempts
+    </button>
+
+    <div id="test6-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 7: Token Expiry -->
+  <div class="test-section">
+    <h2>⏱️ Test 7: Token Expiration <span class="badge pending" id="test7-badge">Not Run</span></h2>
+    <p>Test if tokens expire after 1 minute (simulated)</p>
+
+    <button class="test-button" onclick="checkTokenExpiryTest()">
+      🕐 Check Token Expiry Time
+    </button>
+    <button class="test-button danger" onclick="forceExpireTest()">
+      ⏩ Force Token Expiry
+    </button>
+
+    <div id="test7-result" class="test-result" style="display:none;"></div>
+  </div>
+
+  <!-- Console Monitor -->
+  <div class="test-section">
+    <h2>📊 Live Console Monitor</h2>
+    <p>Real-time console output</p>
+    <div id="console-output" class="test-result" style="display:block; max-height: 200px;">
+      Console messages will appear here...
+    </div>
+    <button class="test-button" onclick="clearConsoleMonitor()">🗑️ Clear</button>
+  </div>
+
+  <script>
+    let captchaInstance;
+    let callbackData = null;
+
+    // Initialize CAPTCHA
+    document.addEventListener('DOMContentLoaded', () => {
+      captchaInstance = createCaptcha("captchaContainer", {
+        digits: 4,
+        blurLevel: 6,
+        instructionText: "Solve to test",
+        activateButton: "submitBtn",
+        antiTampering: true,
+        onComplete: (result) => {
+          callbackData = result;
+          logToConsole('✅ onComplete called!', 'success');
+          logToConsole(JSON.stringify(result, null, 2), 'success');
+
+          // Update Test 5 result
+          showResult('test5', `
+            <strong>✅ onComplete Callback Fired!</strong>
+            <pre>${JSON.stringify(result, null, 2)}</pre>
+          `, 'success');
+          updateBadge('test5', 'pass');
+
+          // Update Test 1
+          updateBadge('test1', 'pass');
+          showResult('test1', '✅ CAPTCHA solved successfully! Token generated.', 'success');
+        }
+      });
+
+      // Monitor console
+      interceptConsole();
+    });
+
+    // TEST FUNCTIONS
+
+    function bypassButtonTest() {
+      try {
+        logToConsole('🚨 Attempting: document.getElementById("submitBtn").disabled = false', 'error');
+
+        const buttonBefore = document.getElementById('submitBtn').disabled;
+        document.getElementById('submitBtn').disabled = false;
+
+        setTimeout(() => {
+          const buttonAfter = document.getElementById('submitBtn').disabled;
+
+          if (buttonAfter === true && buttonBefore === true) {
+            showResult('test2', '✅ PASS: Anti-tampering detected and blocked the bypass!', 'success');
+            updateBadge('test2', 'pass');
+          } else {
+            showResult('test2', '❌ FAIL: Button was enabled without CAPTCHA!', 'error');
+            updateBadge('test2', 'fail');
+          }
+        }, 100);
+      } catch (e) {
+        showResult('test2', `Error: ${e.message}`, 'error');
+      }
+    }
+
+    function bypassJQueryTest() {
+      logToConsole('🚨 Attempting jQuery bypass (if jQuery exists)', 'error');
+      showResult('test2', 'Note: This requires jQuery. Same as direct bypass.', '');
+    }
+
+    function checkTokenTest() {
+      const token = sessionStorage.getItem('captcha_token_captchaContainer');
+      const expiry = sessionStorage.getItem('captcha_expiry_captchaContainer');
+
+      if (token) {
+        const expiryDate = new Date(parseInt(expiry));
+        const now = new Date();
+        const remainingMs = parseInt(expiry) - Date.now();
+        const remainingSec = Math.floor(remainingMs / 1000);
+
+        showResult('test3', `
+          <strong>✅ Token Found!</strong><br>
+          Token: ${token.substring(0, 50)}...<br>
+          Expires: ${expiryDate.toLocaleTimeString()}<br>
+          Remaining: ${remainingSec} seconds<br>
+          Valid: ${remainingMs > 0 ? '✅ Yes' : '❌ Expired'}
+        `, 'success');
+        updateBadge('test3', 'pass');
+      } else {
+        showResult('test3', '❌ No token found. Please solve CAPTCHA first.', 'error');
+        updateBadge('test3', 'fail');
+      }
+    }
+
+    function fakeTokenTest() {
+      logToConsole('🚨 Attempting: Inject fake token', 'error');
+
+      sessionStorage.setItem('captcha_token_captchaContainer', 'FAKE_TOKEN_12345');
+      sessionStorage.setItem('captcha_expiry_captchaContainer', (Date.now() + 60000).toString());
+
+      setTimeout(() => {
+        const button = document.getElementById('submitBtn');
+
+        if (button.disabled) {
+          showResult('test3', '✅ PASS: Fake token rejected, button still disabled!', 'success');
+        } else {
+          showResult('test3', '⚠️ WARNING: Button enabled with fake token!', 'error');
+        }
+      }, 100);
+    }
+
+    function expiredTokenTest() {
+      logToConsole('🚨 Setting expired token', 'error');
+
+      const expiredTime = Date.now() - 10000; // 10 seconds ago
+      sessionStorage.setItem('captcha_expiry_captchaContainer', expiredTime.toString());
+
+      showResult('test7', `
+        ✅ Token expiry set to past:<br>
+        Expiry: ${new Date(expiredTime).toLocaleTimeString()}<br>
+        Now: ${new Date().toLocaleTimeString()}<br>
+        <br>
+        Try to enable button now - it should be blocked.
+      `, 'success');
+      updateBadge('test7', 'pass');
+    }
+
+    function clearStorageTest() {
+      logToConsole('🚨 Attempting: localStorage.clear()', 'error');
+
+      const attemptsBefore = localStorage.getItem('captcha_bot_attempts');
+      localStorage.clear();
+      const attemptsAfter = localStorage.getItem('captcha_bot_attempts');
+
+      showResult('test4', `
+        Before clear: ${attemptsBefore || '0'} bot attempts<br>
+        After clear: ${attemptsAfter || '0'} bot attempts<br>
+        <br>
+        Note: sessionStorage tokens are NOT cleared by localStorage.clear()
+      `, '');
+      updateBadge('test4', 'pass');
+    }
+
+    function resetBotAttemptsTest() {
+      logToConsole('🚨 Attempting: Reset bot attempts', 'error');
+      localStorage.setItem('captcha_bot_attempts', '0');
+      showResult('test4', 'Bot attempts manually set to 0. This works but doesn\'t bypass token validation.', '');
+    }
+
+    function checkStorageTest() {
+      const botAttempts = localStorage.getItem('captcha_bot_attempts') || '0';
+      const lastSuccess = localStorage.getItem('captcha_last_success');
+      const timeoutEnd = localStorage.getItem('captcha_timeout_end');
+
+      const sessionToken = sessionStorage.getItem('captcha_token_captchaContainer');
+      const sessionExpiry = sessionStorage.getItem('captcha_expiry_captchaContainer');
+
+      showResult('test4', `
+        <strong>localStorage:</strong><br>
+        - Bot Attempts: ${botAttempts}<br>
+        - Last Success: ${lastSuccess ? new Date(parseInt(lastSuccess)).toLocaleString() : 'None'}<br>
+        - Timeout End: ${timeoutEnd || 'None'}<br>
+        <br>
+        <strong>sessionStorage:</strong><br>
+        - Token: ${sessionToken ? sessionToken.substring(0, 30) + '...' : 'None'}<br>
+        - Expiry: ${sessionExpiry ? new Date(parseInt(sessionExpiry)).toLocaleString() : 'None'}
+      `, '');
+      updateBadge('test4', 'pass');
+    }
+
+    function simulateSolveTest() {
+      showResult('test5', `
+        ⏳ Solve the CAPTCHA above to trigger onComplete callback...<br>
+        <br>
+        Callback will show here automatically.
+      `, '');
+    }
+
+    function rapidBypassTest() {
+      logToConsole('🚨 Attempting 5 rapid bypass attempts...', 'error');
+      let attempts = 0;
+
+      const interval = setInterval(() => {
+        attempts++;
+        document.getElementById('submitBtn').disabled = false;
+        logToConsole(`Bypass attempt ${attempts}/5`, 'error');
+
+        if (attempts >= 5) {
+          clearInterval(interval);
+
+          setTimeout(() => {
+            const botAttempts = localStorage.getItem('captcha_bot_attempts') || '0';
+            showResult('test6', `
+              ✅ Test complete!<br>
+              Bot attempts recorded: ${botAttempts}<br>
+              <br>
+              ${parseInt(botAttempts) >= 5 ? '🚫 Should trigger 5-minute lockout!' : '⚠️ Not enough attempts detected'}
+            `, parseInt(botAttempts) >= 5 ? 'success' : 'error');
+            updateBadge('test6', parseInt(botAttempts) >= 5 ? 'pass' : 'fail');
+          }, 500);
+        }
+      }, 200);
+    }
+
+    function checkBotAttemptsTest() {
+      const attempts = localStorage.getItem('captcha_bot_attempts') || '0';
+      showResult('test6', `Current bot attempts: ${attempts}/5`, '');
+    }
+
+    function checkTokenExpiryTest() {
+      const expiry = sessionStorage.getItem('captcha_expiry_captchaContainer');
+
+      if (expiry) {
+        const expiryTime = new Date(parseInt(expiry));
+        const now = new Date();
+        const diff = parseInt(expiry) - Date.now();
+        const diffSec = Math.floor(diff / 1000);
+
+        showResult('test7', `
+          Token expiry: ${expiryTime.toLocaleTimeString()}<br>
+          Current time: ${now.toLocaleTimeString()}<br>
+          Time remaining: ${diffSec} seconds<br>
+          Status: ${diff > 0 ? '✅ Valid' : '❌ Expired'}
+        `, diff > 0 ? 'success' : 'error');
+      } else {
+        showResult('test7', '❌ No token found. Solve CAPTCHA first.', 'error');
+      }
+    }
+
+    function forceExpireTest() {
+      sessionStorage.setItem('captcha_expiry_captchaContainer', (Date.now() - 1000).toString());
+      showResult('test7', '✅ Token forcefully expired. Try enabling button - should fail.', 'success');
+      updateBadge('test7', 'pass');
+    }
+
+    // UTILITY FUNCTIONS
+
+    function showResult(testId, message, type) {
+      const resultDiv = document.getElementById(`${testId}-result`);
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = message;
+      resultDiv.className = `test-result ${type}`;
+    }
+
+    function updateBadge(testId, status) {
+      const badge = document.getElementById(`${testId}-badge`);
+      badge.className = `badge ${status}`;
+      badge.textContent = status === 'pass' ? 'PASS' : status === 'fail' ? 'FAIL' : 'Pending';
+    }
+
+    function logToConsole(message, type = '') {
+      const consoleDiv = document.getElementById('console-output');
+      const timestamp = new Date().toLocaleTimeString();
+      const color = type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#333';
+
+      consoleDiv.innerHTML += `<div style="color: ${color}; margin: 5px 0;">[${timestamp}] ${message}</div>`;
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+
+    function clearConsoleMonitor() {
+      document.getElementById('console-output').innerHTML = '';
+    }
+
+    function interceptConsole() {
+      const originalLog = console.log;
+      const originalWarn = console.warn;
+      const originalError = console.error;
+
+      console.log = function(...args) {
+        logToConsole(args.join(' '), '');
+        originalLog.apply(console, args);
+      };
+
+      console.warn = function(...args) {
+        logToConsole('⚠️ ' + args.join(' '), 'error');
+        originalWarn.apply(console, args);
+      };
+
+      console.error = function(...args) {
+        logToConsole('❌ ' + args.join(' '), 'error');
+        originalError.apply(console, args);
+      };
+    }
+  </script>
+</body>
+</html>

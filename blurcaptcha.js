@@ -78,6 +78,9 @@ class Captcha {
       </div>
     `;
 
+    // 🍯 HONEYPOT: Görünmez input ekle (bot tuzağı)
+    this.createInvisibleHoneypot();
+
     const captcha = this.container.querySelector('.captcha');
     const inputRow = this.container.querySelector('.input-row');
 
@@ -734,6 +737,80 @@ class Captcha {
     return btoa(JSON.stringify(data));
   }
 
+  createInvisibleHoneypot() {
+    // 🍯 Görünmez honeypot input oluştur
+    const honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'email_confirm'; // Bot'ların hedef aldığı tipik isim
+    honeypot.id = 'captcha_honeypot_' + this.container.id;
+    honeypot.setAttribute('autocomplete', 'off');
+    honeypot.setAttribute('tabindex', '-1'); // Tab ile erişilemesin
+    honeypot.setAttribute('aria-hidden', 'true');
+
+    // Rastgele pozisyon (görünmez ama erişilebilir)
+    const positions = [
+      { position: 'absolute', top: '-9999px', left: '-9999px' }, // Klasik
+      { position: 'absolute', top: '0', left: '-9999px' }, // Sol dışı
+      { position: 'absolute', top: '-9999px', left: '0' }, // Üst dışı
+      { position: 'absolute', opacity: '0', width: '1px', height: '1px', top: '0', left: '0' }, // Görünmez minimal
+      { position: 'absolute', opacity: '0', 'pointer-events': 'none', top: '50%', left: '50%' } // Merkez görünmez
+    ];
+
+    const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+
+    let styleString = '';
+    for (let key in randomPosition) {
+      styleString += `${key}: ${randomPosition[key]}; `;
+    }
+
+    honeypot.style.cssText = styleString;
+
+    // Container'a ekle
+    this.container.appendChild(honeypot);
+    this.honeypotField = honeypot;
+
+    // Honeypot'a otomatik focus (bot bunu görmeden doldurur)
+    setTimeout(() => {
+      if (this.honeypotField) {
+        this.honeypotField.focus();
+      }
+    }, 100);
+
+    // Honeypot'a input gelirse bot detected!
+    this.honeypotField.addEventListener('input', () => {
+      console.error('🚨 HONEYPOT TRIGGERED! Bot detected - Field filled!');
+      this.botAttempts += 3; // Honeypot çok ciddi, +3 puan
+      localStorage.setItem('captcha_bot_attempts', this.botAttempts.toString());
+      this.humanMetrics.honeypotTriggered = true;
+
+      if (this.botAttempts >= 5) {
+        this.showBotBlockedOverlay();
+      } else {
+        alert('⚠️ Şüpheli aktivite tespit edildi!\n\nBot davranışı algılandı.');
+        this.resetCaptcha();
+      }
+    });
+
+    // Eğer honeypot focus aldıktan sonra kullanıcı gerçek input'a tıklarsa
+    // Bu normal insan davranışıdır - puan ver!
+    const realInputs = this.container.querySelectorAll('input[type="text"]:not([id^="captcha_honeypot"])');
+    realInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        if (this.honeypotFocused && !this.realInputFocused) {
+          // Honeypot focus aldı, sonra gerçek input'a geçti - İNSAN! ✅
+          console.log('✅ Mouse movement detected: Honeypot → Real input (Human behavior)');
+          this.humanMetrics.honeypotBypassed = true; // Bonus puan için
+          this.realInputFocused = true;
+        }
+      });
+    });
+
+    // Honeypot focus tracking
+    this.honeypotField.addEventListener('focus', () => {
+      this.honeypotFocused = true;
+    });
+  }
+
   setupAntiTampering() {
     // Protect button from manual enabling
     if (this.settings.activateButton) {
@@ -891,6 +968,20 @@ class Captcha {
       if (metrics.mouseDirectionChanges > 2) {
         score += 3; // Yön değişimi var = İNSAN
       }
+    }
+
+    // 10. HONEYPOT BONUS (max 5 puan)
+    // Eğer honeypot focus aldı ama doldurulmadı ve gerçek input'a geçiş yapıldı
+    if (metrics.honeypotBypassed) {
+      score += 5; // Mouse ile gerçek input'a geçti = İNSAN ✅
+      console.log('✅ Honeypot bypassed correctly (+5 points) - Human detected!');
+    }
+
+    // 11. HONEYPOT PENALTY (otomatik -100)
+    // Honeypot dolduruldu = BOT!
+    if (metrics.honeypotTriggered) {
+      score = 0; // Instant fail!
+      console.error('🚨 Honeypot filled = BOT DETECTED! Score = 0');
     }
 
     return Math.min(100, Math.max(0, score));
