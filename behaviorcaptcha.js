@@ -24,6 +24,7 @@ class Captcha {
     this.digits = Array.from({ length: this.settings.digits }, () => Math.floor(Math.random() * 10));
     this.firstInteractionComplete = false; // İlk mouse ve tıklama kontrolü yapılmamış
     this.botAttempts = parseInt(localStorage.getItem('captcha_bot_attempts') || '0', 10); // Bot denemelerini sakla
+    this.wrongAttempts = parseInt(localStorage.getItem('captcha_wrong_attempts') || '0', 10); // Yanlış cevap sayacı
 
     // Timeout kontrolü
     this.checkTimeout();
@@ -239,7 +240,9 @@ class Captcha {
             if (button) button.disabled = false;
           }
         } else {
+          // Yanlış cevap girildi
           inputElement.value = '';
+          this.handleWrongAnswer();
         }
       });
 
@@ -481,6 +484,7 @@ class Captcha {
     if (score >= 40) {
       // İnsan olarak kabul edildi
       localStorage.removeItem('captcha_bot_attempts'); // Bot sayacını sıfırla
+      localStorage.removeItem('captcha_wrong_attempts'); // Yanlış cevap sayacını sıfırla
 
       // Başarılı CAPTCHA çözümünü kaydet (şifre kontrolü için)
       localStorage.setItem('captcha_last_success', Date.now().toString());
@@ -569,9 +573,43 @@ class Captcha {
         // Timeout süresi dolmuş, temizle
         localStorage.removeItem('captcha_timeout_end');
         localStorage.removeItem('captcha_bot_attempts');
+        localStorage.removeItem('captcha_wrong_attempts');
       }
     }
     return false;
+  }
+
+  handleWrongAnswer() {
+    this.wrongAttempts++;
+    localStorage.setItem('captcha_wrong_attempts', this.wrongAttempts.toString());
+
+    console.warn(`⚠️ Yanlış cevap! Deneme: ${this.wrongAttempts}`);
+
+    // Progressive timeout strategy
+    if (this.wrongAttempts >= 10) {
+      // 10+ wrong attempts = 5 minute lockout
+      console.error('🚨 TOO MANY WRONG ATTEMPTS! 5 minute lockout');
+      const timeoutDuration = 5 * 60 * 1000; // 5 dakika
+      const timeoutEnd = Date.now() + timeoutDuration;
+      localStorage.setItem('captcha_timeout_end', timeoutEnd.toString());
+      localStorage.setItem('captcha_wrong_attempts', '0'); // Reset counter
+      this.showTimeoutScreen(timeoutDuration);
+
+      alert(`🚨 Çok fazla yanlış deneme!\n\n${this.wrongAttempts} yanlış cevap girdiniz.\n\n5 dakika sonra tekrar deneyin.`);
+    } else if (this.wrongAttempts >= 5) {
+      // 5-9 wrong attempts = 1 minute lockout
+      console.warn('⚠️ Multiple wrong attempts. 1 minute cooldown');
+      const timeoutDuration = 60 * 1000; // 1 dakika
+      const timeoutEnd = Date.now() + timeoutDuration;
+      localStorage.setItem('captcha_timeout_end', timeoutEnd.toString());
+      this.showTimeoutScreen(timeoutDuration);
+
+      alert(`⚠️ Çok fazla yanlış deneme!\n\n${this.wrongAttempts} yanlış cevap.\n\n1 dakika sonra tekrar deneyin.`);
+    } else if (this.wrongAttempts >= 3) {
+      // 3-4 wrong attempts = warning
+      alert(`⚠️ Dikkat!\n\n${this.wrongAttempts} yanlış cevap girdiniz.\n\n5 yanlış denemede 1 dakika,\n10 yanlış denemede 5 dakika kilitleneceksiniz.`);
+    }
+    // 1-2 wrong attempts = no action, just clear input
   }
 
   showTimeoutScreen(remainingTime) {

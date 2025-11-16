@@ -31,8 +31,8 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 - 🛡️ **Anti-Tampering Protection** - Detects console manipulation attempts
 - 🔑 **Verification Tokens** - Cryptographic proof of solving
 - 📱 **Mobile Support** - Touch event tracking for mobile devices
-- ⏱️ **Timeout System** - 5-minute lockout after bot detection
-- 🚨 **Brute Force Protection** - Locks after 4 wrong passwords
+- ⏱️ **Progressive Timeout System** - Smart lockouts (1min @ 5 wrong, 5min @ 10 wrong)
+- 🚨 **Brute Force Protection** - Prevents unlimited guessing attempts
 - 💾 **No Server Required** - Fully client-side with localStorage
 - 🎯 **99%+ Bot Prevention** - Stops basic, intermediate, and most advanced bots
 
@@ -150,6 +150,7 @@ createCaptcha("containerId", {
 - 🔑 **Token System**: Cryptographic proof prevents replay attacks
 - 🛡️ **Anti-Tampering**: MutationObserver detects console bypass attempts
 - ⏱️ **Token Expiry**: 1-minute validity prevents token reuse
+- 🚨 **Wrong Answer Limits**: Progressive lockouts (3 warnings → 5 wrong = 1min → 10 wrong = 5min)
 
 ### 🧪 Bot Resistance
 
@@ -330,8 +331,8 @@ If you find this project useful, please consider giving it a star on GitHub!
 - 🛡️ **Müdahale Önleme Koruması** - Konsol manipülasyon denemelerini algılar
 - 🔑 **Doğrulama Token'ları** - Çözümün kriptografik kanıtı
 - 📱 **Mobil Destek** - Mobil cihazlar için dokunma olayı izleme
-- ⏱️ **Zaman Aşımı Sistemi** - Bot tespitinden sonra 5 dakika kilitleme
-- 🚨 **Kaba Kuvvet Koruması** - 4 yanlış şifreden sonra 3 dakika kilitleme
+- ⏱️ **Aşamalı Zaman Aşımı** - Akıllı kilitlenme (5 yanlış = 1dk, 10 yanlış = 5dk)
+- 🚨 **Kaba Kuvvet Koruması** - Sınırsız tahmin denemelerini engeller
 - 💾 **Sunucu Gerektirmez** - Tamamen istemci tarafı, localStorage ile
 - 🎯 **%99+ Bot Önleme** - Temel, orta ve çoğu gelişmiş botu durdurur
 
