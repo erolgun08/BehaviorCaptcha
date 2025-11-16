@@ -95,6 +95,11 @@ npm install blurcaptcha
 - [Server Validation](EXAMPLES.md#server-validation)
 - [All Examples](EXAMPLES.md)
 
+**🔒 Security:**
+- [Security Best Practices](SECURITY_IMPROVEMENTS.md)
+- [Anti-Tampering Protection](SECURITY_IMPROVEMENTS.md#anti-tampering-detection)
+- [Server-Side Validation](SECURITY_IMPROVEMENTS.md#server-side-validation-recommended)
+
 ### ⚙️ Configuration Options
 
 ```javascript
@@ -108,7 +113,14 @@ createCaptcha("containerId", {
   activateButton: 'buttonId',   // Button to enable after success
   serverValidation: false,      // Enable server validation
   serverUrl: '',                // Server endpoint URL
-  onComplete: (digits) => {}    // Callback function
+  antiTampering: true,          // Enable anti-tampering protection (default: true)
+  onComplete: (result) => {     // Callback function when CAPTCHA solved
+    // result.success - Boolean
+    // result.token - Verification token
+    // result.humanScore - Score (0-100)
+    // result.metrics - Behavioral data
+    // result.fingerprint - Browser fingerprint
+  }
 });
 ```
 

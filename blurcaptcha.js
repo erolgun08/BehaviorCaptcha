@@ -55,6 +55,11 @@ class Captcha {
       angularChanges: [],       // Açı değişimleri
     };
 
+    // Setup anti-tampering protection
+    if (this.settings.antiTampering !== false) {
+      this.setupAntiTampering();
+    }
+
     this.init();
   }
 
@@ -477,6 +482,35 @@ class Captcha {
       // Başarılı CAPTCHA çözümünü kaydet (şifre kontrolü için)
       localStorage.setItem('captcha_last_success', Date.now().toString());
 
+      // Generate verification token
+      const token = this.generateVerificationToken(score);
+
+      // Store token with expiry (1 minute)
+      const expiry = Date.now() + 60000;
+      sessionStorage.setItem('captcha_token_' + this.container.id, token);
+      sessionStorage.setItem('captcha_expiry_' + this.container.id, expiry.toString());
+
+      // Call onComplete callback with verification data
+      if (this.settings.onComplete && typeof this.settings.onComplete === 'function') {
+        this.settings.onComplete({
+          success: true,
+          token: token,
+          humanScore: score,
+          digits: this.digits,
+          metrics: {
+            mouseMovements: metrics.mouseMovements.length,
+            touchMovements: metrics.touchMovements.length,
+            completionTime: Date.now() - metrics.startTime,
+            pasteDetected: metrics.pasteDetected,
+            focusChanges: metrics.focusChanges
+          },
+          fingerprint: {
+            canvas: this.fingerprint.canvasFingerprint,
+            webgl: this.fingerprint.webglFingerprint.substring(0, 50)
+          }
+        });
+      }
+
       this.showSuccessOverlay();
     } else {
       // Bot olarak tespit edildi
@@ -683,6 +717,55 @@ class Captcha {
       mouseEntered: false,
     };
     this.init();
+  }
+
+  generateVerificationToken(humanScore) {
+    // Create a verification token
+    const timestamp = Date.now();
+    const data = {
+      score: humanScore,
+      timestamp: timestamp,
+      containerId: this.container.id,
+      fingerprint: this.fingerprint.canvasFingerprint.substring(0, 8),
+      random: Math.random().toString(36).substring(7)
+    };
+
+    // Simple encoding (in production, use proper crypto)
+    return btoa(JSON.stringify(data));
+  }
+
+  setupAntiTampering() {
+    // Protect button from manual enabling
+    if (this.settings.activateButton) {
+      const button = document.getElementById(this.settings.activateButton);
+      if (button) {
+        const self = this;
+
+        // Watch for unauthorized button enable
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+              const token = sessionStorage.getItem('captcha_token_' + self.container.id);
+              const expiry = sessionStorage.getItem('captcha_expiry_' + self.container.id);
+
+              // If button enabled without valid token
+              if (!button.disabled && (!token || Date.now() > parseInt(expiry || '0'))) {
+                console.warn('🚨 Unauthorized button enable detected - Re-disabling');
+                button.disabled = true;
+                self.botAttempts += 1;
+                localStorage.setItem('captcha_bot_attempts', self.botAttempts.toString());
+
+                if (self.botAttempts >= 5) {
+                  self.showBotBlockedOverlay();
+                }
+              }
+            }
+          });
+        });
+
+        observer.observe(button, { attributes: true });
+      }
+    }
   }
 
   calculateHumanScore(metrics) {
