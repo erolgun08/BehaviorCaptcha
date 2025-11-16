@@ -33,30 +33,51 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 
 ### 📦 Installation
 
-#### Option 1: Direct Download
-```bash
-git clone https://github.com/erolgun08/BlurCaptcha.git
-```
-
-#### Option 2: CDN (jsdelivr)
+#### Option 1: CDN (Easiest - No Download Required!) ⭐
 ```html
 <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
 ```
 
-### 🚀 Quick Start
+#### Option 2: Direct Download
+```bash
+# Download single file
+curl -O https://raw.githubusercontent.com/erolgun08/BlurCaptcha/main/blurcaptcha.js
+
+# Or clone entire repo
+git clone https://github.com/erolgun08/BlurCaptcha.git
+```
+
+#### Option 3: npm (Coming Soon)
+```bash
+npm install blurcaptcha
+```
+
+### 🚀 Quick Start (3 Lines of Code!)
+
+**Simplest possible implementation:**
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+<div id="captcha"></div>
+<script>createCaptcha("captcha");</script>
+```
+
+**That's it! 🎉** CAPTCHA is ready to use.
+
+**Full example:**
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="blurcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
 </head>
 <body>
   <div id="captchaContainer"></div>
   <button id="loginButton">Login</button>
 
   <script>
-    const captcha = createCaptcha("captchaContainer", {
+    createCaptcha("captchaContainer", {
       digits: 4,
       blurLevel: 6,
       instructionText: "Enter the numbers below",
@@ -66,6 +87,13 @@ git clone https://github.com/erolgun08/BlurCaptcha.git
 </body>
 </html>
 ```
+
+**📚 More Examples:**
+- [React Integration](EXAMPLES.md#react-integration)
+- [Vue.js Integration](EXAMPLES.md#vuejs-integration)
+- [Angular Integration](EXAMPLES.md#angular-integration)
+- [Server Validation](EXAMPLES.md#server-validation)
+- [All Examples](EXAMPLES.md)
 
 ### ⚙️ Configuration Options
 

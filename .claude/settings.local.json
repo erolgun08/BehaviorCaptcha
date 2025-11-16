@@ -10,7 +10,8 @@
       "Bash(git remote add:*)",
       "Bash(git push:*)",
       "Bash(dir /b:*)",
-      "Bash(python -m http.server:*)"
+      "Bash(python -m http.server:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
