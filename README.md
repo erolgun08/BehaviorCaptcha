@@ -16,6 +16,8 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 > **Free alternative to Google reCAPTCHA, hCaptcha, and Cloudflare Turnstile**
 > No tracking, no cookies, no external dependencies - 100% privacy-focused
 
+> ⚠️ **IMPORTANT:** This is a **client-side CAPTCHA** suitable for low-to-medium risk applications. For high-security use cases (banking, healthcare, large e-commerce), use enterprise solutions with mandatory server-side validation. [See limitations](#-when-not-to-use)
+
 ---
 
 ## 🇬🇧 English Documentation
@@ -240,12 +242,48 @@ Server receives:
 
 ### 🎯 Use Cases
 
-- **Login Forms** - Prevent credential stuffing attacks
-- **Registration Pages** - Block fake account creation
-- **Contact Forms** - Stop spam submissions
-- **Comment Sections** - Prevent bot spam
-- **API Rate Limiting** - Add human verification layer
-- **Voting/Polling** - Ensure one vote per person
+#### ✅ Ideal For (Recommended):
+- **Blog Comments** - Spam prevention for personal/medium blogs
+- **Contact Forms** - Lead generation forms, feedback forms
+- **Newsletter Signups** - Email list protection
+- **Community Forums** - Small-to-medium discussion boards
+- **Startup MVPs** - Early-stage products, prototypes
+- **Portfolio Sites** - Personal projects, showcase sites
+- **Educational Projects** - Student projects, coding bootcamps
+
+#### ⚠️ Use With Caution (Additional Security Required):
+- **Login Forms** - Combine with 2FA + email verification
+- **Registration Pages** - Add email verification + rate limiting
+- **Small E-commerce** (<10K users/month) - Require server-side validation
+- **Voting/Polling** - Add IP tracking + database-level fraud detection
+
+### ❌ When NOT to Use
+
+**DO NOT use BehaviorCaptcha for:**
+
+- ❌ **Banking & Finance** - Online banking, credit cards, money transfers
+  - *Why:* Client-side bypass = financial loss. Requires PCI-DSS compliance.
+
+- ❌ **Healthcare (HIPAA)** - Patient records, prescriptions, medical data
+  - *Why:* HIPAA compliance requires server-side audit logging.
+
+- ❌ **Government Websites** - e-Government services, tax systems, ID verification
+  - *Why:* Accessibility requirements (WCAG 2.1 AA), procurement mandates.
+
+- ❌ **Large E-commerce** (>100K users/month) - Amazon/Shopify-scale platforms
+  - *Why:* Professional bot networks, high-stakes inventory manipulation.
+
+- ❌ **API Services** - Public REST APIs, GraphQL endpoints, webhooks
+  - *Why:* No mouse/behavioral data available. Use API keys + OAuth.
+
+- ❌ **Crypto Exchanges** - Trading platforms, wallet operations
+  - *Why:* Million-dollar attack risk, sophisticated trading bots.
+
+**For these use cases, use:**
+- Google reCAPTCHA Enterprise
+- Cloudflare Turnstile
+- PerimeterX / DataDome
+- Custom ML-based fraud detection
 
 ### 🔍 SEO Keywords & Search Terms
 
@@ -413,12 +451,48 @@ Sunucu alır:
 
 ### 🎯 Kullanım Alanları
 
-- **Giriş Formları** - Kimlik bilgisi doldurma saldırılarını önleme
-- **Kayıt Sayfaları** - Sahte hesap oluşturmayı engelleme
-- **İletişim Formları** - Spam gönderimlerini durdurma
-- **Yorum Bölümleri** - Bot spam önleme
-- **API Hız Sınırlama** - İnsan doğrulama katmanı ekleme
-- **Oylama/Anket** - Kişi başı bir oy sağlama
+#### ✅ İdeal Kullanım (Tavsiye Edilen):
+- **Blog Yorumları** - Kişisel/orta ölçekli bloglar için spam önleme
+- **İletişim Formları** - Lead generation, geri bildirim formları
+- **Newsletter Kayıtları** - E-posta listesi koruması
+- **Topluluk Forumları** - Küçük-orta ölçekli tartışma platformları
+- **Startup MVP'leri** - Erken aşama ürünler, prototip projeler
+- **Portfolyo Siteleri** - Kişisel projeler, vitrin siteleri
+- **Eğitim Projeleri** - Öğrenci projeleri, bootcamp projeleri
+
+#### ⚠️ Dikkatli Kullanın (Ek Güvenlik Gerekli):
+- **Giriş Formları** - 2FA + email doğrulama ile birlikte kullanın
+- **Kayıt Sayfaları** - Email doğrulama + rate limiting ekleyin
+- **Küçük E-ticaret** (<10K kullanıcı/ay) - Sunucu tarafı doğrulama zorunlu
+- **Oylama/Anket** - IP takibi + veritabanı seviyesinde fraud tespiti ekleyin
+
+### ❌ Kullanılmamalı
+
+**BehaviorCaptcha'yı KULLANMAYIN:**
+
+- ❌ **Bankacılık & Finans** - Online banking, kredi kartı, para transferleri
+  - *Neden:* Client-side bypass = parasal kayıp. PCI-DSS uyumluluk gerekli.
+
+- ❌ **Sağlık (HIPAA)** - Hasta kayıtları, reçete sistemleri, medikal veri
+  - *Neden:* HIPAA uyumluluğu sunucu tarafı audit logging gerektirir.
+
+- ❌ **Devlet Siteleri** - e-Devlet servisleri, vergi sistemleri, kimlik doğrulama
+  - *Neden:* Erişilebilirlik gereksinimleri (WCAG 2.1 AA), kamu ihaleleri.
+
+- ❌ **Büyük E-ticaret** (>100K kullanıcı/ay) - Amazon/Trendyol ölçeği
+  - *Neden:* Profesyonel bot ağları, yüksek riskli stok manipülasyonu.
+
+- ❌ **API Servisleri** - Public REST API'ler, GraphQL endpoint'ler, webhook'lar
+  - *Neden:* Mouse/davranış verisi yok. API key + OAuth kullanın.
+
+- ❌ **Kripto Borsaları** - Trading platformları, cüzdan işlemleri
+  - *Neden:* Milyon dolarlık saldırı riski, sofistike trading botları.
+
+**Bu kullanımlar için tercih edin:**
+- Google reCAPTCHA Enterprise
+- Cloudflare Turnstile
+- PerimeterX / DataDome
+- Özel ML tabanlı fraud detection
 
 ### 🆚 Neden BehaviorCaptcha?
 
