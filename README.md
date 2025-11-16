@@ -7,6 +7,9 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6-blue.svg)](https://www.javascript.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/erolgun08/BlurCaptcha/pulls)
+[![GitHub Stars](https://img.shields.io/github/stars/erolgun08/BlurCaptcha?style=social)](https://github.com/erolgun08/BlurCaptcha/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/erolgun08/BlurCaptcha?style=social)](https://github.com/erolgun08/BlurCaptcha/network/members)
+[![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hm/erolgun08/BlurCaptcha)](https://www.jsdelivr.com/package/gh/erolgun08/BlurCaptcha)
 
 **[🌐 Live Demo](https://erolgun08.github.io/BlurCaptcha/)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
 
