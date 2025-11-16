@@ -21,7 +21,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 </head>
 <body>
   <div id="captcha"></div>
@@ -41,7 +41,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 </head>
 <body>
   <form id="loginForm">
@@ -92,7 +92,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 </head>
 <body>
   <form id="contactForm">
@@ -150,7 +150,7 @@ function LoginForm() {
   useEffect(() => {
     // Load BlurCaptcha script
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js';
     script.async = true;
     script.onload = () => {
       // Initialize CAPTCHA
@@ -225,7 +225,7 @@ export default {
   mounted() {
     // Load BlurCaptcha script
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js';
     script.async = true;
     script.onload = () => {
       window.createCaptcha('captcha', {
@@ -283,7 +283,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // Load BlurCaptcha script
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js';
     script.async = true;
     script.onload = () => {
       (window as any).createCaptcha('captcha', {
@@ -314,7 +314,7 @@ export class LoginComponent implements OnInit {
 ## 🌐 Server Validation
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 
 <div id="captcha"></div>
 
@@ -376,7 +376,7 @@ app.listen(3000);
 ## 🎨 Custom Styling
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 
 <div id="captcha"></div>
 
@@ -418,7 +418,7 @@ app.listen(3000);
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 
 <div id="captcha"></div>
 
@@ -448,7 +448,7 @@ app.listen(3000);
 ## 🔗 Multiple CAPTCHAs on Same Page
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 
 <h3>Login Form</h3>
 <div id="captcha1"></div>

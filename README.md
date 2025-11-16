@@ -38,7 +38,7 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 
 #### Option 1: CDN (Easiest - No Download Required!) ⭐
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 ```
 
 #### Option 2: Direct Download
@@ -60,7 +60,7 @@ npm install behaviorcaptcha
 **Simplest possible implementation:**
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 <div id="captcha"></div>
 <script>createCaptcha("captcha");</script>
 ```
@@ -73,7 +73,7 @@ npm install behaviorcaptcha
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 </head>
 <body>
   <div id="captchaContainer"></div>
@@ -306,7 +306,7 @@ git clone https://github.com/erolgun08/BehaviorCaptcha.git
 
 #### Seçenek 2: CDN (jsdelivr)
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BehaviorCaptcha@main/behaviorcaptcha.js"></script>
 ```
 
 ### 🚀 Hızlı Başlangıç

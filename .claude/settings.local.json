@@ -14,7 +14,8 @@
       "WebFetch(domain:github.com)",
       "WebSearch",
       "Bash(move:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git remote set-url:*)"
     ],
     "deny": [],
     "ask": []
