@@ -130,7 +130,13 @@ createCaptcha("containerId", {
 
 - ❌ **Basic Bots** (99% blocked) - No mouse, instant completion
 - ⚠️ **Intermediate Bots** (95% blocked) - Robotic movement patterns
-- ✅ **Advanced Bots** (80% blocked) - May pass but very expensive
+- ✅ **Advanced Bots** (80% blocked) - May pass but very expensive ($0.50-$2 per attempt)
+
+**Why not 100%?** Advanced bots use ML-generated human behavior, real browsers, and residential proxies. But BlurCaptcha makes attacks so expensive ($10-50 per successful attempt) that attackers give up!
+
+**[📖 Read detailed analysis →](ADVANCED_SECURITY.md)**
+
+**Real-world impact:** Turns $10 attack into $5,000 attack → Attackers move to easier targets 🎯
 
 ### 🆚 Why BlurCaptcha?
 
