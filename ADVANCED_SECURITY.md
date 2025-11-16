@@ -16,7 +16,7 @@
    await sleep(Math.random() * 3000); // Random 0-3s delay
    ```
 
-**Why BlurCaptcha catches them:**
+**Why BehaviorCaptcha catches them:**
 - Movement too smooth (no micro-jitter)
 - Velocity variance too low
 - No pause patterns
@@ -55,7 +55,7 @@
 **Why they still get caught (80% of the time):**
 
 ```javascript
-// BlurCaptcha's advanced checks:
+// BehaviorCaptcha's advanced checks:
 
 // 1. ACCELERATION VARIANCE
 humanAccel = [0.01, 0.15, 0.03, 0.22, 0.08]; // Highly variable
@@ -102,10 +102,10 @@ if (firstInteractionTime < 500ms) {
 
 **Bot Evolution:**
 ```
-Week 1: BlurCaptcha blocks 99% of bots
+Week 1: BehaviorCaptcha blocks 99% of bots
 Week 2: Bots analyze patterns, update scripts
 Week 3: Some bots pass (they learned!)
-Week 4: BlurCaptcha updates detection
+Week 4: BehaviorCaptcha updates detection
 ... cycle continues
 ```
 
@@ -125,7 +125,7 @@ Advanced Bot:  $0.50-$2.00 per attempt
 Perfect Bot:   $10-$50 per attempt
 
 For most attackers: Not worth it!
-BlurCaptcha makes bot attacks unprofitable.
+BehaviorCaptcha makes bot attacks unprofitable.
 ```
 
 ---
@@ -229,7 +229,7 @@ if (variance < 0.1) {
 - Success rate: 100%
 - Successful attacks: 10,000/hour
 
-**With BlurCaptcha:**
+**With BehaviorCaptcha:**
 - Bot attempts: 10,000/hour
 - Success rate: 5% (only advanced bots)
 - Successful attacks: 500/hour
@@ -241,7 +241,7 @@ if (variance < 0.1) {
 
 ## 💡 The Real Goal
 
-BlurCaptcha's goal isn't 100% detection.
+BehaviorCaptcha's goal isn't 100% detection.
 
 **The real goal:**
 ```
@@ -259,7 +259,7 @@ For 10,000 attacks:
 
 ## 🔬 Testing Your Own Bot
 
-Want to test BlurCaptcha against bots? Try:
+Want to test BehaviorCaptcha against bots? Try:
 
 ```javascript
 // Puppeteer test
@@ -269,7 +269,7 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
-  await page.goto('https://erolgun08.github.io/BlurCaptcha/');
+  await page.goto('https://erolgun08.github.io/BehaviorCaptcha/');
 
   // Try to solve CAPTCHA automatically
   await page.waitForSelector('#captcha');
@@ -283,7 +283,7 @@ const puppeteer = require('puppeteer');
   // Check console for "Bot detected" message
 })();
 
-// Result: BlurCaptcha will detect this as a bot!
+// Result: BehaviorCaptcha will detect this as a bot!
 // - No mouse movement
 // - Too fast
 // - Consistent timing
@@ -299,4 +299,4 @@ const puppeteer = require('puppeteer');
 
 ---
 
-**Bottom Line:** BlurCaptcha makes bot attacks economically unfeasible for 99% of attackers.
+**Bottom Line:** BehaviorCaptcha makes bot attacks economically unfeasible for 99% of attackers.

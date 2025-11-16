@@ -11,7 +11,10 @@
       "Bash(git push:*)",
       "Bash(dir /b:*)",
       "Bash(python -m http.server:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(move:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

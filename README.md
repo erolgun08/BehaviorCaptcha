@@ -1,4 +1,4 @@
-# 🔒 BlurCaptcha
+# 🔒 BehaviorCaptcha
 
 **Advanced AI-resistant CAPTCHA with Behavioral Biometrics & Canvas Rendering**
 
@@ -6,12 +6,12 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6-blue.svg)](https://www.javascript.com/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/erolgun08/BlurCaptcha/pulls)
-[![GitHub Stars](https://img.shields.io/github/stars/erolgun08/BlurCaptcha?style=social)](https://github.com/erolgun08/BlurCaptcha/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/erolgun08/BlurCaptcha?style=social)](https://github.com/erolgun08/BlurCaptcha/network/members)
-[![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hm/erolgun08/BlurCaptcha)](https://www.jsdelivr.com/package/gh/erolgun08/BlurCaptcha)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/erolgun08/BehaviorCaptcha/pulls)
+[![GitHub Stars](https://img.shields.io/github/stars/erolgun08/BehaviorCaptcha?style=social)](https://github.com/erolgun08/BehaviorCaptcha/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/erolgun08/BehaviorCaptcha?style=social)](https://github.com/erolgun08/BehaviorCaptcha/network/members)
+[![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hm/erolgun08/BehaviorCaptcha)](https://www.jsdelivr.com/package/gh/erolgun08/BehaviorCaptcha)
 
-**[🌐 Live Demo](https://erolgun08.github.io/BlurCaptcha/)** | **[🧪 Test Suite](https://erolgun08.github.io/BlurCaptcha/test.html)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
+**[🌐 Live Demo](https://erolgun08.github.io/BehaviorCaptcha/)** | **[🧪 Test Suite](https://erolgun08.github.io/BehaviorCaptcha/test.html)** | [**🇹🇷 Türkçe**](#türkçe-dokümantasyon) | [**🇬🇧 English**](#english-documentation)
 
 > **Free alternative to Google reCAPTCHA, hCaptcha, and Cloudflare Turnstile**
 > No tracking, no cookies, no external dependencies - 100% privacy-focused
@@ -38,21 +38,21 @@ A professional, client-side CAPTCHA system that uses behavioral analysis, finger
 
 #### Option 1: CDN (Easiest - No Download Required!) ⭐
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
 ```
 
 #### Option 2: Direct Download
 ```bash
 # Download single file
-curl -O https://raw.githubusercontent.com/erolgun08/BlurCaptcha/main/blurcaptcha.js
+curl -O https://raw.githubusercontent.com/erolgun08/BehaviorCaptcha/main/behaviorcaptcha.js
 
 # Or clone entire repo
-git clone https://github.com/erolgun08/BlurCaptcha.git
+git clone https://github.com/erolgun08/BehaviorCaptcha.git
 ```
 
 #### Option 3: npm (Coming Soon)
 ```bash
-npm install blurcaptcha
+npm install behaviorcaptcha
 ```
 
 ### 🚀 Quick Start (3 Lines of Code!)
@@ -60,7 +60,7 @@ npm install blurcaptcha
 **Simplest possible implementation:**
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
 <div id="captcha"></div>
 <script>createCaptcha("captcha");</script>
 ```
@@ -73,7 +73,7 @@ npm install blurcaptcha
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
 </head>
 <body>
   <div id="captchaContainer"></div>
@@ -155,7 +155,7 @@ createCaptcha("containerId", {
 - ⚠️ **Intermediate Bots** (95% blocked) - Robotic movement patterns
 - ✅ **Advanced Bots** (80% blocked) - May pass but very expensive ($0.50-$2 per attempt)
 
-**Why not 100%?** Advanced bots use ML-generated human behavior, real browsers, and residential proxies. But BlurCaptcha makes attacks so expensive ($10-50 per successful attempt) that attackers give up!
+**Why not 100%?** Advanced bots use ML-generated human behavior, real browsers, and residential proxies. But BehaviorCaptcha makes attacks so expensive ($10-50 per successful attempt) that attackers give up!
 
 **[📖 Read detailed analysis →](ADVANCED_SECURITY.md)**
 
@@ -163,7 +163,7 @@ createCaptcha("containerId", {
 
 ### 🧪 Testing & Security Validation
 
-**[🔬 Interactive Test Suite](https://erolgun08.github.io/BlurCaptcha/test.html)**
+**[🔬 Interactive Test Suite](https://erolgun08.github.io/BehaviorCaptcha/test.html)**
 
 Test all security features in real-time:
 
@@ -185,9 +185,9 @@ document.getElementById('submitBtn').disabled = false;
 // Result: Button re-disabled, bot attempts +1
 ```
 
-### 🆚 Why BlurCaptcha?
+### 🆚 Why BehaviorCaptcha?
 
-| Feature | BlurCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
+| Feature | BehaviorCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
 |---------|-------------|------------------|----------|---------------------|
 | **Privacy** | ✅ No tracking | ❌ Tracks users | ❌ Tracks users | ⚠️ Limited tracking |
 | **Server Required** | ❌ No | ✅ Yes | ✅ Yes | ✅ Yes |
@@ -301,12 +301,12 @@ If you find this project useful, please consider giving it a star on GitHub!
 
 #### Seçenek 1: Doğrudan İndirme
 ```bash
-git clone https://github.com/erolgun08/BlurCaptcha.git
+git clone https://github.com/erolgun08/BehaviorCaptcha.git
 ```
 
 #### Seçenek 2: CDN (jsdelivr)
 ```html
-<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/blurcaptcha.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/erolgun08/BlurCaptcha@main/behaviorcaptcha.js"></script>
 ```
 
 ### 🚀 Hızlı Başlangıç
@@ -315,7 +315,7 @@ git clone https://github.com/erolgun08/BlurCaptcha.git
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="blurcaptcha.js"></script>
+  <script src="behaviorcaptcha.js"></script>
 </head>
 <body>
   <div id="captchaContainer"></div>
@@ -420,9 +420,9 @@ Sunucu alır:
 - **API Hız Sınırlama** - İnsan doğrulama katmanı ekleme
 - **Oylama/Anket** - Kişi başı bir oy sağlama
 
-### 🆚 Neden BlurCaptcha?
+### 🆚 Neden BehaviorCaptcha?
 
-| Özellik | BlurCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
+| Özellik | BehaviorCaptcha | Google reCAPTCHA | hCaptcha | Cloudflare Turnstile |
 |---------|-------------|------------------|----------|---------------------|
 | **Gizlilik** | ✅ Takip yok | ❌ Kullanıcıları takip eder | ❌ Kullanıcıları takip eder | ⚠️ Sınırlı takip |
 | **Sunucu Gereksinimi** | ❌ Hayır | ✅ Evet | ✅ Evet | ✅ Evet |

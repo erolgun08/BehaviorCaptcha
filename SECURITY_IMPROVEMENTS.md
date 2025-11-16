@@ -37,7 +37,7 @@ localStorage.removeItem('captcha_timeout_end');
 **Add cryptographic verification:**
 
 ```javascript
-// In blurcaptcha.js
+// In behaviorcaptcha.js
 class Captcha {
   generateChallengeToken(digits, metrics) {
     const timestamp = Date.now();
@@ -478,7 +478,7 @@ sessionStorage.setItem('captcha_token_captcha', 'fake_token');
 
 ## 💡 Summary
 
-**Current BlurCaptcha (Client-Only):**
+**Current BehaviorCaptcha (Client-Only):**
 - Good for: Low-stakes forms, basic protection
 - Security: 80%
 - Bypass difficulty: Medium
