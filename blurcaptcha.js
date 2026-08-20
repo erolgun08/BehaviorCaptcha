@@ -395,11 +395,14 @@ class Captcha {
     this.container.style.display = 'block';
     this.log('CAPTCHA gösterildi');
 
-    // Focus first input
+    // Enable and focus first input
     setTimeout(() => {
       const firstInput = this.container.querySelector('input');
-      if (firstInput && !firstInput.disabled) {
+      if (firstInput) {
+        firstInput.disabled = false;
+        this.firstInteractionComplete = true;
         firstInput.focus();
+        this.log('İlk input aktifleştirildi ve odaklandı');
       }
     }, 100);
   }

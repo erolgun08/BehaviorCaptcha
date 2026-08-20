@@ -552,8 +552,11 @@ class Captcha {
 
     setTimeout(() => {
       const firstInput = this.container.querySelector('input');
-      if (firstInput && !firstInput.disabled) {
+      if (firstInput) {
+        firstInput.disabled = false;
+        this.firstInteractionComplete = true;
         firstInput.focus();
+        this.log('İlk input aktifleştirildi ve odaklandı');
       }
     }, 100);
   }
